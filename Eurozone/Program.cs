@@ -11,21 +11,23 @@ namespace Eurozone
     {
         static void Main(string[] args)
         {
+            // Generazione Paese
             CountryEU_ONU italiaCountry = new CountryEU_ONU(60000, 324000, "Europa", "Italia", "Costituzione Italiana", "VerdeBiancoRosso", "Euro", "Italiano", 100, false);
-            //CountryEU_ONU franciaCountry = new CountryEU_ONU(67000, 675000, "Europa", "Francia", "Costituzione Francese", "BluBiancoRosso", "Euro", "Francese", 150, false);
-            //CountryEU_ONU germaniaCountry = new CountryEU_ONU(83000, 357000, "Europa", "Germania", "Legge Fondamentale Tedesca", "NeroRossoGiallo", "Euro", "Tedesco", 200, false);
-            //CountryONU cinaCountry = new CountryONU(1400000, 9706000, "Asia", "Cina", "Costituzione della Repubblica Popolare Cinese", "RossoGiallo", "Renminbi", "Cinese Mandarino", 30, true);
 
+            // Generazione Città con un massimo numero di Cittadini
             City romeCity = new City("Rome", "Italy", 20);
             City milanCity = new City("Milan", "Italy", 10);
 
+            // Generazione Randomica di un certo numero di Cittadini
             romeCity.randomAddCitizens(8);
             milanCity.randomAddCitizens(4);
 
+            // Generazione Manuale di un Cittadino
             milanCity.manualAddCitizen();
 
             Console.Clear();
 
+            // Stampa dei Cittadini della Città
             milanCity.printCitizens();
 
             Console.ReadKey();
