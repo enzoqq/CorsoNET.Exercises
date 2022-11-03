@@ -9,7 +9,7 @@ namespace Eurozone.Country
 
     public class City
     {
-        private string nome;
+        public string nome;
         public List<Citizen> citizens;
         public string myCountry;
         public int maxCitizens;
@@ -43,13 +43,18 @@ namespace Eurozone.Country
         {
             if (citizens.Count < maxCitizens)
             {
+                DateTime birthday = new DateTime();
                 string newnome = "", newcognome = "";
                 Console.WriteLine("Città: " + nome + "\n");
-                Console.WriteLine("* Nome: ");
+                Console.Write("* Nome: ");
                 newnome = Console.ReadLine();
-                Console.WriteLine("* Cognome: ");
+                Console.Write("* Cognome: ");
                 newcognome = Console.ReadLine();
-                citizens.Add(new Citizen(newnome, newcognome, nome));
+                Console.Write("Data di Nascita: ");
+                if (DateTime.TryParse(Console.ReadLine(), out birthday))
+                    citizens.Add(new Citizen(newnome, newcognome, birthday, nome));
+                else
+                    Console.WriteLine("Data non corretta.");
             }
             else Console.WriteLine("Città " + nome + " al completo. ");
         }
@@ -61,7 +66,7 @@ namespace Eurozone.Country
 
             for (int i = 0; i < _random_generation; i++)
             {
-                citizens.Add(new Citizen(genName(), genSurname(), nome));
+                citizens.Add(new Citizen(genName(), genSurname(), genBirthday(), nome));
 
             }
         }
@@ -70,7 +75,24 @@ namespace Eurozone.Country
         {
             Console.WriteLine("Città: " + nome + "\n");
             for (int i = 0; i < citizens.Count; i++)
-                Console.WriteLine("> " + citizens[i].nome + " " + citizens[i].cognome);
+                Console.WriteLine($"> {citizens[i].nome} {citizens[i].cognome} {citizens[i].birthday.ToString("dd/MM/yyyy")}");
+        }
+
+        public void printCitizensSigned()
+        {
+            Console.WriteLine("Città: " + nome + "\n");
+            for (int i = 0; i < citizens.Count; i++)
+                if (citizens[i].signed)
+                    Console.WriteLine($"- {citizens[i].nome} {citizens[i].cognome} {citizens[i].birthday.ToString("dd/MM/yyyy")}");
+        }
+
+        public void signAllPrinted(string _timezone)
+        {
+            DateTime thistime = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.UtcNow, _timezone);
+            Console.WriteLine(thistime);
+            Console.WriteLine("Città: " + nome + "\n");
+            for (int i = 0; i < citizens.Count; i++)
+                citizens[i].SignPaper(thistime.Hour);
         }
 
         public string genName()
@@ -81,6 +103,11 @@ namespace Eurozone.Country
         public string genSurname()
         {
             return surnames[_random.Next(surnames.Length)];
+        }
+
+        public DateTime genBirthday()
+        {
+            return Convert.ToDateTime($"{_random.Next(1, 28)}-{_random.Next(1, 12)}-{_random.Next(1970, 2000)}");
         }
 
 
