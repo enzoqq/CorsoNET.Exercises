@@ -19,9 +19,13 @@ namespace ProxySingleton
             {
                 externalConnection.Connections = Utility.TryAllConnections(externalConnection.getAllConnections());
                 Utility.CheckTimePackages(externalConnection.getAllConnections());
+
+                //externalConnection.showConnections();
                 Proxy.GetInstance().showServers();
                 Thread.Sleep(1000);
             } while (true);
+
+
         }
 
 
@@ -32,13 +36,13 @@ namespace ProxySingleton
     static class Utility
     {
         public static int numbOfServer = 2;
-        public static int numbOfClient = 1;
+        public static int numbOfClient = 5;
 
         public static int minClientRangeIP = 100;
         public static int maxClientRangeIP = 254;
 
         public static int minDurationsSeconds = 1;
-        public static int maxDurationsSeconds = 5;
+        public static int maxDurationsSeconds = 10;
 
         public static string bannedCountry = "Russia";
 
@@ -57,8 +61,9 @@ namespace ProxySingleton
         public static List<Connection> TryAllConnections(List<Connection> externalConnection)
         {
             for (int i = 0; i < externalConnection.Count; i++)
-                if (Proxy.GetInstance().TryConnection(externalConnection[i]))
-                    externalConnection.RemoveAt(i);
+                if (externalConnection[i].Duration > 0)
+                    Proxy.GetInstance().TryConnection(externalConnection[i]);
+                else externalConnection.RemoveAt(i);
 
             return externalConnection;
         }
@@ -78,7 +83,8 @@ namespace ProxySingleton
             foreach (Connection connection in externalConnection)
                 if (connection.Duration <= 0)
                     Proxy.GetInstance().RemoveConnection(connection.Ip);
-                else Proxy.GetInstance().UpdateConnection(connection.Ip, -1000);
+                else
+                    Proxy.GetInstance().UpdateConnection(connection.Ip, 1000);
         }
     }
 }

@@ -24,7 +24,7 @@ namespace ProxySingleton
 
         public static Proxy GetInstance()
         {
-            if(instance == null)
+            if (instance == null)
                 instance = new Proxy();
 
             return instance;
@@ -57,24 +57,34 @@ namespace ProxySingleton
             foreach (var server in ServerIp)
             {
                 Console.WriteLine($"- Server IP: '{server.Key}'");
-                if (server.Value != null)
+                if (server.Value != null && server.Value.Duration > 0)
                     Console.WriteLine($"-Client IP: '{server.Value.Ip}'\nType: '{server.Value.Type}'\nCountry: '{server.Value.Country}'\nDuration: '{server.Value.Duration} ms'\n");
-            }    
+            }
         }
 
         public void RemoveConnection(string _ip)
         {
-            string server = CheckConnection(_ip);
-            if (server != null)
-                ServerIp[server] = null;
+            string ipExist = checkClientConnection(_ip);
+            if (ipExist != null)
+                ServerIp[ipExist] = null;
         }
 
         public void UpdateConnection(string _ip, int _ms)
         {
-            string server = CheckConnection(_ip);
-            if (server != null && ServerIp[server] != null)
-                ServerIp[server].Duration += _ms;
+            string ipExist = checkClientConnection(_ip);
+
+            if (ipExist != null)
+                ServerIp[ipExist].Duration -= _ms;
         }
 
+        public string checkClientConnection(string _ip)
+        {
+            foreach (var server in ServerIp)
+                if (server.Value != null && server.Value.Ip == _ip)
+                    return server.Key;
+                
+            
+            return null;
+        }
     }
 }

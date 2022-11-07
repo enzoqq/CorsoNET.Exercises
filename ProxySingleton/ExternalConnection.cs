@@ -22,12 +22,6 @@ namespace ProxySingleton
         {
             return _connections;
         }
-
-        public ExternalConnection()
-        {
-            _connections = new List<Connection>();
-        }
-
         public ExternalConnection(int n)
         {
             _connections = new List<Connection>();
@@ -47,6 +41,8 @@ namespace ProxySingleton
 
         public void showConnections()
         {
+            Console.Clear();
+
             foreach (Connection connection in _connections)
                 Console.WriteLine($"IP: '{connection.Ip}'\nType: '{connection.Type}'\nCountry: '{connection.Country}'\n");
         }
