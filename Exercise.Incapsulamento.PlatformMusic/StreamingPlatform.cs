@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
 
 using static Exercise.Incapsulamento.PlatformMusic.Application;
+using static Exercise.Incapsulamento.PlatformMusic.Program;
 
 namespace Exercise.Incapsulamento.PlatformMusic
 {
@@ -41,12 +43,16 @@ namespace Exercise.Incapsulamento.PlatformMusic
                 application_tracks.Add(newSong);
         }
 
-        public void RemoveSong(string _song_name, int _song_duration)
+        public bool RemoveSong(string _song_name, int _song_duration)
         {
-            Song newSong = new Song(_song_name, _song_duration);
+            foreach (Song song in application_tracks)
+                if (song.Name == _song_name && song.Duration == _song_duration)
+                {
+                    application_tracks.Remove(song);
+                    return true;
+                }
 
-            if (application_tracks.IndexOf(newSong) != -1)
-                application_tracks.Remove(newSong);
+            return false;
         }
 
         protected class Song
@@ -63,6 +69,17 @@ namespace Exercise.Incapsulamento.PlatformMusic
                 song_duration = _song_duration;
                 song_status = SongStatus.Stop;
                 song_actual_time = 0;
+            }
+
+            public string DurationTime()
+            {
+                string duration = "";
+                int h = 0, m = 0, s = 0;
+
+                s = Math.DivRem(song_duration, 60, out m);
+                m = Math.DivRem(song_duration, 60, out h);
+
+                return h + ":" + m + ":" + s;
             }
 
             public string Name { get { return song_name; } set { song_name = value; } }
@@ -85,7 +102,7 @@ namespace Exercise.Incapsulamento.PlatformMusic
             elapsedSeconds = 0;
         }
 
-        public void Play()
+        public bool Play()
         {
             if (streaming_song != null)
             {
@@ -93,10 +110,14 @@ namespace Exercise.Incapsulamento.PlatformMusic
 
                 streaming_timer.Start();
                 startTimer();
+
+                return true;
             }
+
+            return false;
         }
 
-        public void Stop()
+        public bool Stop()
         {
             if (streaming_song != null)
             {
@@ -105,9 +126,13 @@ namespace Exercise.Incapsulamento.PlatformMusic
 
                 streaming_timer.Stop();
                 stopTimer();
+
+                return true;
             }
+
+            return false;
         }
-        public void Pause()
+        public bool Pause()
         {
             if (streaming_song != null)
             {
@@ -115,7 +140,11 @@ namespace Exercise.Incapsulamento.PlatformMusic
 
                 streaming_song.ActualTime = elapsedSeconds;
                 streaming_timer.Stop();
+
+                return true;
             }
+
+            return false;
         }
 
         public void Rate()
@@ -187,19 +216,7 @@ namespace Exercise.Incapsulamento.PlatformMusic
         //private Dictionary<User, Dictionary<Song, int>> users_rate_songs;
         public Application(string _application_name) : base(_application_name)
         {
-            application_name = _application_name;
-            
             application_users = new List<User>();
-            //users_rate_songs = new Dictionary<User, Dictionary<Song, int>>();
-
-            #region
-            /* 
-            Restart from StreamingPlatform Again ?
-
-            application_tracks = new List<Song>();
-            rated_songs = new Dictionary<Song, int>();
-            */
-            #endregion
         }
 
         protected sealed override bool AccessVerified(User user_login)
@@ -210,13 +227,14 @@ namespace Exercise.Incapsulamento.PlatformMusic
             return true;
         }
 
-        public bool LogInApplication()
+        protected void ShowSongs()
         {
-            Console.WriteLine("Username: ");
-            string username = Console.ReadLine();
-            Console.WriteLine("Password: ");
-            string password = Console.ReadLine();
+            foreach (Song song in application_tracks)
+                Console.WriteLine($"{song.Name} [{song.DurationTime()}]");
+        }
 
+        protected bool LogInApplication(string username, string password)
+        {
             User user_login = new User(username, password);
 
             if (AccessVerified(user_login))
@@ -225,11 +243,87 @@ namespace Exercise.Incapsulamento.PlatformMusic
                 return true;
             }
             else
-            {
-                Console.ReadKey();
-                Console.Clear();
                 return false;
+        }
+
+        public void Start()
+        {
+            string username = "", password = "";
+            bool result = false, dl_song = false; ;
+            int command = 0, rs_song_duration = 0;
+            string _song_name, _song_duration;
+
+            Utility.ChangeTitleAppProgram(application_name);
+
+            do
+            {
+                Utility.LogInProgramIndex(application_name);
+                username = Utility.LogInData("Username");
+                password = Utility.LogInData("Password");
+
+                result = LogInApplication(username, password);
+                 
+                switch (result)
+                {
+                    case true:
+                        Utility.IntoProgramIndex(application_name);
+
+                        do
+                        {
+                            command = Utility.CatchCommand();
+
+                            switch (command)
+                            {
+                                case 0:
+                                    Utility.QuitProgram();
+                                    break;
+
+                                case 1:
+                                    ShowSongs();
+                                    break;
+
+                                case 2:
+                                    _song_name = Utility.CatchSongData("Titolo");
+                                    int.TryParse(Utility.CatchSongData("Durata"), out rs_song_duration);
+                                    AddSong(_song_name, rs_song_duration);
+                                    break;
+
+                                case 3:
+                                    _song_name = Utility.CatchSongData("Titolo");
+                                    int.TryParse(Utility.CatchSongData("Durata"), out rs_song_duration);
+                                    
+                                    Utility.CatchAction(RemoveSong(_song_name, rs_song_duration));
+                                    break;
+
+                                case 4:
+                                    Utility.CatchAction(Play());
+                                    break;
+
+                                case 5:
+                                    Utility.CatchAction(Pause());
+                                    break;
+
+                                case 6:
+                                    Utility.CatchAction(Stop());
+                                    break;
+
+                                case -5:
+                                    Utility.ErrorCommand();
+                                    break;
+
+                                Utility.PressKeyToContinue();
+                            }
+                        }
+                        while (true);
+                        break;
+
+                    case false:
+                        Utility.CatchAction(false);
+                        Utility.PressKeyToContinue();
+                        break;
+                }
             }
+            while (!result) ;
         }
 
 
@@ -240,8 +334,6 @@ namespace Exercise.Incapsulamento.PlatformMusic
         {
             private string user_username;
             private string user_password;
-
-            
 
             public string Username { get { return user_username; } set { user_username = value; } }
             public string Password { get { return user_password; } set { user_password = value; } }
@@ -261,9 +353,9 @@ namespace Exercise.Incapsulamento.PlatformMusic
 
     interface Player
     {
-        void Play();
-        void Stop();
-        void Pause();
+        bool Play();
+        bool Stop();
+        bool Pause();
         void Rate();
         void Forward();
         void Backward();
