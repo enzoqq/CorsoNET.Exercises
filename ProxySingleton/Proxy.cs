@@ -39,15 +39,15 @@ namespace ProxySingleton
             return null;
         }
 
-        public bool TryConnection(Connection _externalConnection)
+        public string TryConnection(Connection _externalConnection)
         {
             string _emptyServer = CheckConnection(_externalConnection.Ip);
             if (_emptyServer != null && ServerIp[_emptyServer] == null && _externalConnection.Country != Utility.bannedCountry)
             {
                 ServerIp[_emptyServer] = _externalConnection;
-                return true;
+                return _externalConnection.Ip;
             }
-            return false;
+            return null;
         }
 
         public void showServers()
@@ -58,7 +58,7 @@ namespace ProxySingleton
             {
                 Console.WriteLine($"- Server IP: '{server.Key}'");
                 if (server.Value != null && server.Value.Duration > 0)
-                    Console.WriteLine($"-Client IP: '{server.Value.Ip}'\nType: '{server.Value.Type}'\nCountry: '{server.Value.Country}'\nDuration: '{server.Value.Duration} ms'\n");
+                    Console.WriteLine($"- Client IP: '{server.Value.Ip}'\nType: '{server.Value.Type}'\nCountry: '{server.Value.Country}'\nDuration: '{server.Value.Duration} ms'\n");
             }
         }
 
@@ -85,6 +85,15 @@ namespace ProxySingleton
                 
             
             return null;
+        }
+
+        public void UpdateAllServersTime()
+        {
+
+            for (int i = 0; i < ServerIp.Count; i++)
+                if (ServerIp.ElementAt(i).Value != null && ServerIp.ElementAt(i).Value.Duration > 0)
+                    ServerIp.ElementAt(i).Value.Duration -= 1000;
+                else ServerIp[ServerIp.ElementAt(i).Key] = null;
         }
     }
 }

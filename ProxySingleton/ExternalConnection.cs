@@ -44,13 +44,13 @@ namespace ProxySingleton
             Console.Clear();
 
             foreach (Connection connection in _connections)
-                Console.WriteLine($"IP: '{connection.Ip}'\nType: '{connection.Type}'\nCountry: '{connection.Country}'\n");
+                Console.WriteLine($"IP: '{connection.Ip}'\nType: '{connection.Type}'\nCountry: '{connection.Country}'\nDuration: '{connection.Duration}'\n");
         }
 
         public void removeConnectionClient(Connection _connection)
         {
             _connections.Remove(_connection);
         }
-            
+
     }
 }

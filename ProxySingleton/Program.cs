@@ -20,8 +20,8 @@ namespace ProxySingleton
                 externalConnection.Connections = Utility.TryAllConnections(externalConnection.getAllConnections());
                 Utility.CheckTimePackages(externalConnection.getAllConnections());
 
-                //externalConnection.showConnections();
                 Proxy.GetInstance().showServers();
+                //externalConnection.showConnections();
                 Thread.Sleep(1000);
             } while (true);
 
@@ -35,14 +35,17 @@ namespace ProxySingleton
 
     static class Utility
     {
+        // Defined to Generate Servers
         public static int numbOfServer = 2;
-        public static int numbOfClient = 5;
+
+        // Defined to Generate Clients
+        public static int numbOfClient = 10;
 
         public static int minClientRangeIP = 100;
         public static int maxClientRangeIP = 254;
 
-        public static int minDurationsSeconds = 1;
-        public static int maxDurationsSeconds = 10;
+        public static int minDurationsSeconds = 5;
+        public static int maxDurationsSeconds = 8;
 
         public static string bannedCountry = "Russia";
 
@@ -60,10 +63,16 @@ namespace ProxySingleton
 
         public static List<Connection> TryAllConnections(List<Connection> externalConnection)
         {
+            string newIp = null;
             for (int i = 0; i < externalConnection.Count; i++)
-                if (externalConnection[i].Duration > 0)
-                    Proxy.GetInstance().TryConnection(externalConnection[i]);
-                else externalConnection.RemoveAt(i);
+            {
+                newIp = Proxy.GetInstance().TryConnection(externalConnection[i]);
+
+                if (newIp != null)
+                    for (int j = 0; j < externalConnection.Count; j++)
+                        if (externalConnection[j].Ip == newIp)
+                            externalConnection.RemoveAt(j);
+            }
 
             return externalConnection;
         }
@@ -80,11 +89,11 @@ namespace ProxySingleton
 
         public static void CheckTimePackages(List<Connection> externalConnection)
         {
-            foreach (Connection connection in externalConnection)
-                if (connection.Duration <= 0)
-                    Proxy.GetInstance().RemoveConnection(connection.Ip);
-                else
-                    Proxy.GetInstance().UpdateConnection(connection.Ip, 1000);
+            Proxy.GetInstance().UpdateAllServersTime();
+
+            for (int i = 0; i < externalConnection.Count; i++)
+                if (externalConnection[i].Duration <= 0)
+                    externalConnection.RemoveAt(i);
         }
     }
 }
