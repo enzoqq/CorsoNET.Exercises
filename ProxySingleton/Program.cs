@@ -19,10 +19,6 @@ namespace ProxySingleton
             {
                 externalConnection.Connections = Utility.TryAllConnections(externalConnection.getAllConnections());
                 Utility.CheckTimePackages(externalConnection.getAllConnections());
-
-                Proxy.GetInstance().showServers();
-                //externalConnection.showConnections();
-                Thread.Sleep(1000);
             } while (true);
 
 
@@ -94,6 +90,9 @@ namespace ProxySingleton
             for (int i = 0; i < externalConnection.Count; i++)
                 if (externalConnection[i].Duration <= 0)
                     externalConnection.RemoveAt(i);
+
+            Proxy.GetInstance().showServers();
+            Thread.Sleep(1000);
         }
     }
 }
