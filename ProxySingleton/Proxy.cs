@@ -13,6 +13,8 @@ namespace ProxySingleton
         private Dictionary<string, Connection> ServerIp;
         private static Proxy instance;
 
+        public Dictionary<string, Connection> ServerConnections { get { return ServerIp; } }
+
         private Proxy()
         {
             ServerIp = new Dictionary<string, Connection>();

@@ -10,21 +10,20 @@ namespace ProxySingleton
 {
     internal class Program
     {
-
+        static string directoryPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+        static string filename = "Proxy Log.txt";
+        static string projectName = "Proxy";
         static void Main(string[] args)
         {
             ExternalConnection externalConnection = new ExternalConnection(Utility.numbOfClient);
 
-            do
+            while (true)
             {
                 externalConnection.Connections = Utility.TryAllConnections(externalConnection.getAllConnections());
+                LogManager.WriteAllServerLog(Proxy.GetInstance().ServerConnections, directoryPath, filename, projectName);
                 Utility.CheckTimePackages(externalConnection.getAllConnections());
-            } while (true);
-
-
+            }
         }
-
-
     }
 
 
@@ -35,13 +34,13 @@ namespace ProxySingleton
         public static int numbOfServer = 2;
 
         // Defined to Generate Clients
-        public static int numbOfClient = 10;
+        public static int numbOfClient = 3;
 
         public static int minClientRangeIP = 100;
         public static int maxClientRangeIP = 254;
 
         public static int minDurationsSeconds = 5;
-        public static int maxDurationsSeconds = 8;
+        public static int maxDurationsSeconds = 10;
 
         public static string bannedCountry = "Russia";
 
