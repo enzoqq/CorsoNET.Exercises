@@ -70,6 +70,7 @@ namespace Exercise.Dictionary
             */
             #endregion
 
+            #region Esercizio Corsi di Laurea
             Dictionary<CorsoLaurea, Dictionary<string, Dictionary<EsameLaurea, int>>> universita =
                 new Dictionary<CorsoLaurea, Dictionary<string, Dictionary<EsameLaurea, int>>>();
 
@@ -113,6 +114,8 @@ namespace Exercise.Dictionary
                 foreach (var matricola in corsolaurea.Value)
                     foreach (var esame in matricola.Value)
                         Console.WriteLine($"{corsolaurea.Key}, {matricola.Key}, {esame.Key}, {esame.Value}");
+
+            #endregion
 
             Console.ReadKey();
         }
