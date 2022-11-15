@@ -74,22 +74,12 @@ namespace Exercise.Dictionary
             Dictionary<CorsoLaurea, Dictionary<string, Dictionary<EsameLaurea, int>>> universita =
                 new Dictionary<CorsoLaurea, Dictionary<string, Dictionary<EsameLaurea, int>>>();
 
-
             foreach (CorsoLaurea corsolaurea in (CorsoLaurea[])Enum.GetValues(typeof(CorsoLaurea)))
                 universita.Add(corsolaurea, new Dictionary<string, Dictionary<EsameLaurea, int>>());
-
-            foreach (var corsolaurea in universita)
-                Console.WriteLine(corsolaurea.Key);
 
             universita[CorsoLaurea.Economia].Add("Farella Vincenzo", new());
             universita[CorsoLaurea.Economia].Add("Rossi Claudio", new());
             universita[CorsoLaurea.Economia].Add("Ferrari Andrea", new());
-            universita[CorsoLaurea.Economia].Add("Romano Luca", new());
-            universita[CorsoLaurea.Economia].Add("Marino Marco", new());
-            universita[CorsoLaurea.Economia].Add("Costa Federico", new());
-            universita[CorsoLaurea.Economia].Add("Gallo Francesco", new());
-            universita[CorsoLaurea.Economia].Add("Barbieri Felice", new());
-            universita[CorsoLaurea.Economia].Add("Marchetti Michael", new());
 
             universita[CorsoLaurea.Chimica].Add("Costa Federico", new());
             universita[CorsoLaurea.Chimica].Add("Gallo Francesco", new());
@@ -104,11 +94,11 @@ namespace Exercise.Dictionary
             universita[CorsoLaurea.Economia]["Farella Vincenzo"].Add(EsameLaurea.Fisica2, 29);
             universita[CorsoLaurea.Economia]["Farella Vincenzo"].Add(EsameLaurea.AnalisiMatematica1, 25);
 
-            universita[CorsoLaurea.Economia]["Rossi Claudio"].Add(EsameLaurea.Fisica1, 23);
-            universita[CorsoLaurea.Economia]["Rossi Claudio"].Add(EsameLaurea.Fisica2, 24);
+            universita[CorsoLaurea.Chimica]["Gallo Francesco"].Add(EsameLaurea.Fisica1, 23);
+            universita[CorsoLaurea.Chimica]["Barbieri Felice"].Add(EsameLaurea.Fisica2, 24);
 
-            universita[CorsoLaurea.Economia]["Romano Luca"].Add(EsameLaurea.TeoriaSegnali, 19);
-            universita[CorsoLaurea.Economia]["Costa Federico"].Add(EsameLaurea.Elettronica1, 21);
+            universita[CorsoLaurea.Informatica]["Romano Luca"].Add(EsameLaurea.TeoriaSegnali, 19);
+            universita[CorsoLaurea.Informatica]["Marino Marco"].Add(EsameLaurea.Elettronica1, 21);
 
             foreach (var corsolaurea in universita)
                 foreach (var matricola in corsolaurea.Value)
