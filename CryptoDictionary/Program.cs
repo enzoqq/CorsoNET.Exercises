@@ -16,11 +16,32 @@ namespace CryptoDictionary
             SCUOLA
         }
 
+        enum EsameLaurea
+        {
+            AnalisiMatematica1,
+            AnalisiMatematica2,
+            Fisica1,
+            Fisica2,
+            Algebra,
+            FondamentiInformatica,
+            TeoriaSegnali,
+            Elettronica1,
+            Elettronica2
+        }
+
+        enum CorsoLaurea
+        {
+            Economia,
+            Informatica,
+            Chimica
+        }
+
         static string userSearch = "SRCPBL001";
         static Department departmentSearch = Department.SCUOLA;
 
         static void Main(string[] args)
         {
+            /*
             Dictionary<Department, Dictionary<string, DateTime>> gestionaleStato = 
                 new Dictionary<Department, Dictionary<string, DateTime>>();
 
@@ -50,6 +71,52 @@ namespace CryptoDictionary
             foreach (var department in gestionaleStato)
                 foreach (var user in department.Value)
                     Console.WriteLine($"{user.Key} in {user.Value.Date.ToString("MM/dd/yyyy")}");
+
+            */
+
+            Dictionary<CorsoLaurea, Dictionary<string, Dictionary<EsameLaurea, int>>> universita = 
+                new Dictionary<CorsoLaurea, Dictionary<string, Dictionary<EsameLaurea, int>>>();
+
+
+            foreach (CorsoLaurea corsolaurea in (CorsoLaurea[])Enum.GetValues(typeof(CorsoLaurea)))
+                universita.Add(corsolaurea, new Dictionary<string, Dictionary<EsameLaurea, int>>());
+
+            foreach (var corsolaurea in universita)
+                Console.WriteLine(corsolaurea.Key);
+
+            universita[CorsoLaurea.Economia].Add("Farella Vincenzo", new Dictionary<EsameLaurea, int>());
+            universita[CorsoLaurea.Economia].Add("Rossi Claudio", new Dictionary<EsameLaurea, int>());
+            universita[CorsoLaurea.Economia].Add("Ferrari Andrea", new Dictionary<EsameLaurea, int>());
+            universita[CorsoLaurea.Economia].Add("Romano Luca", new Dictionary<EsameLaurea, int>());
+            universita[CorsoLaurea.Economia].Add("Marino Marco", new Dictionary<EsameLaurea, int>());
+            universita[CorsoLaurea.Economia].Add("Costa Federico", new Dictionary<EsameLaurea, int>());
+            universita[CorsoLaurea.Economia].Add("Gallo Francesco", new Dictionary<EsameLaurea, int>());
+            universita[CorsoLaurea.Economia].Add("Barbieri Felice", new Dictionary<EsameLaurea, int>());
+            universita[CorsoLaurea.Economia].Add("Marchetti Michael", new Dictionary<EsameLaurea, int>());
+
+            universita[CorsoLaurea.Chimica].Add("Costa Federico", new Dictionary<EsameLaurea, int>());
+            universita[CorsoLaurea.Chimica].Add("Gallo Francesco", new Dictionary<EsameLaurea, int>());
+            universita[CorsoLaurea.Chimica].Add("Barbieri Felice", new Dictionary<EsameLaurea, int>());
+            universita[CorsoLaurea.Chimica].Add("Marchetti Michael", new Dictionary<EsameLaurea, int>());
+
+            universita[CorsoLaurea.Informatica].Add("Ferrari Andrea", new Dictionary<EsameLaurea, int>());
+            universita[CorsoLaurea.Informatica].Add("Romano Luca", new Dictionary<EsameLaurea, int>());
+            universita[CorsoLaurea.Informatica].Add("Marino Marco", new Dictionary<EsameLaurea, int>());
+
+            universita[CorsoLaurea.Economia]["Farella Vincenzo"].Add(EsameLaurea.Fisica1, 28);
+            universita[CorsoLaurea.Economia]["Farella Vincenzo"].Add(EsameLaurea.Fisica2, 29);
+            universita[CorsoLaurea.Economia]["Farella Vincenzo"].Add(EsameLaurea.AnalisiMatematica1, 25);
+
+            universita[CorsoLaurea.Economia]["Rossi Claudio"].Add(EsameLaurea.Fisica1, 23);
+            universita[CorsoLaurea.Economia]["Rossi Claudio"].Add(EsameLaurea.Fisica2, 24);
+
+            universita[CorsoLaurea.Economia]["Romano Luca"].Add(EsameLaurea.TeoriaSegnali, 19);
+            universita[CorsoLaurea.Economia]["Costa Federico"].Add(EsameLaurea.Elettronica1, 21);
+
+            foreach (var corsolaurea in universita)
+                foreach (var matricola in corsolaurea.Value)
+                    foreach(var esame in matricola.Value)
+                        Console.WriteLine($"{corsolaurea.Key}, {matricola.Key}, {esame.Key}, {esame.Value}");
 
             Console.ReadKey();
         }
