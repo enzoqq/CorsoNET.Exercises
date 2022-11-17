@@ -15,16 +15,14 @@ namespace Exercise.LoggerFileGenerics
 
             Line line = new Line(new Point(3, 3), new Point(5, 5));
 
-            Console.WriteLine("Test");
-
             GenericLog.LogToFile(points, filepath);
             GenericLog.LogToFile(line, filepath);
         }
 
         public class Point {
-            public int x;
-            public int y;
-        
+            public int x { get; }
+            public int y { get; }
+
             public int Square()
             {
                 return x ^ 2 * y ^ 2;
@@ -39,8 +37,8 @@ namespace Exercise.LoggerFileGenerics
 
         public class Line
         {
-            public Point p1;
-            public Point p2;
+            public Point p1 { get; }
+            public Point p2 { get; }
 
             public Line(Point _p1, Point _p2)
             {

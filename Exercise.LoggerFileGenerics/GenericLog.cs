@@ -16,15 +16,13 @@ namespace Exercise.LoggerFileGenerics
             if(data == null || data.Count == 0)
                 throw new ArgumentException("data", "empty list or null");
 
-            foreach(var item in data)
-            {
-                var element = item.GetType().GetProperties();
-                Console.WriteLine(element.Length);
+            var element = data[0].GetType().GetProperties();
+            foreach (var item in data)
+            { 
                 foreach (var attr in element)
-                {
-                    line.Append(attr.Name);
-                    Console.WriteLine(attr.Name);
-                }
+                    line.Append($"[{attr.Name}] ");
+
+                line.AppendLine();
             }
 
             File.AppendAllText(path, line.ToString());
@@ -37,10 +35,7 @@ namespace Exercise.LoggerFileGenerics
 
             StringBuilder line = new StringBuilder();
             foreach (var attr in data.GetType().GetProperties())
-            {
-                line.Append(attr.Name);
-                Console.WriteLine(attr.Name);
-            }
+                line.Append($"[{attr.Name}] ");
 
             File.AppendAllText(path, line.ToString());
         }
