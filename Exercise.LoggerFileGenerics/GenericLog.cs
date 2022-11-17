@@ -57,11 +57,9 @@ namespace Exercise.LoggerFileGenerics
                 foreach (var line in lines)
                 {
                     i = 0;
-                    string[] elements = line.Split(' ');
-                    foreach (var element in elements)
+                    entry = new T();
+                    foreach (var element in line.Split(' '))
                     {
-                        Console.WriteLine(element);
-                        entry = new T();
                         entry.GetType().GetProperty(headers[i])
                             .SetValue(entry, Convert.ChangeType(element, entry.GetType().GetProperty(headers[i]).PropertyType));
                         i++;
@@ -69,9 +67,6 @@ namespace Exercise.LoggerFileGenerics
                     output.Add(entry);
                 }
             }
-
-
-
             return output;
         }
     }

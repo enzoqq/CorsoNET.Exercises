@@ -23,6 +23,8 @@ namespace Exercise.LoggerFileGenerics
 
             foreach(Point point in pointsFromFile)
                 Console.WriteLine($"{point.x} {point.y}");
+
+            Console.WriteLine($"{pointsFromFile.Count}");
         }
 
         public class Point {
