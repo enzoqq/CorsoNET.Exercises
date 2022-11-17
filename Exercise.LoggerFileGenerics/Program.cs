@@ -15,14 +15,24 @@ namespace Exercise.LoggerFileGenerics
 
             Line line = new Line(new Point(3, 3), new Point(5, 5));
 
-            GenericLog.LogToFile(points, filepath);
-            GenericLog.LogToFile(line, filepath);
+            //GenericLog.LogToFile(points, filepath);
+            //GenericLog.LogToFile(line, filepath);
+
+            List<Point> pointsFromFile = new List<Point>();
+            pointsFromFile = GenericLog.GetFromFile<Point>(filepath);
+
+            foreach(Point point in pointsFromFile)
+                Console.WriteLine($"{point.x} {point.y}");
         }
 
         public class Point {
-            public int x { get; }
-            public int y { get; }
+            public int x { get; set; }
+            public int y { get; set; }
 
+            public Point()
+            {
+
+            }
             public int Square()
             {
                 return x ^ 2 * y ^ 2;
