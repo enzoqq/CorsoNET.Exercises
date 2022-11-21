@@ -11,7 +11,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Exercise.Singleton.Proxy", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Exercise.Dictionary", "Exercise.Dictionary\Exercise.Dictionary.csproj", "{1E375BDB-41B0-42DC-A7B0-0D111A0FA1E4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Exercise.LoggerFileGenerics", "Exercise.LoggerFileGenerics\Exercise.LoggerFileGenerics.csproj", "{91ED7567-C1F6-4119-81B5-24E16BE0FAD1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Exercise.LoggerFileGenerics", "Exercise.LoggerFileGenerics\Exercise.LoggerFileGenerics.csproj", "{91ED7567-C1F6-4119-81B5-24E16BE0FAD1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Exercise.ConfigurableProject", "Exercise.ConfigurableProject\Exercise.ConfigurableProject.csproj", "{125B1B5B-DB99-4AA2-82E4-16400BB47FA5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{91ED7567-C1F6-4119-81B5-24E16BE0FAD1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{91ED7567-C1F6-4119-81B5-24E16BE0FAD1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{91ED7567-C1F6-4119-81B5-24E16BE0FAD1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{125B1B5B-DB99-4AA2-82E4-16400BB47FA5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{125B1B5B-DB99-4AA2-82E4-16400BB47FA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{125B1B5B-DB99-4AA2-82E4-16400BB47FA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{125B1B5B-DB99-4AA2-82E4-16400BB47FA5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
